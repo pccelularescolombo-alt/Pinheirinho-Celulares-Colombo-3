@@ -134,16 +134,16 @@ function gerarImagem(d){
   ctx.textAlign="center";
   ctx.fillStyle=est.texto;
 
-  let y = b + 70;
+let y = b + 60;
 
-  /* ===== CAIXA DA LOGO ===== */
-  const logo = new Image();
-  logo.src = `logo/${d.marca.toLowerCase()}.png`;
+/* ===== CAIXA DA LOGO ===== */
+const logo = new Image();
+logo.src = `logo/${d.marca.toLowerCase()}.png`;
 
-  const boxW = 420;
-  const boxH = 130;
-  const boxX = (c.width - boxW)/2;
-  const boxY = y - 50;
+const boxW = 420;
+const boxH = 130;
+const boxX = (c.width - boxW)/2;
+const boxY = y;
 
   /* Sombra */
   ctx.shadowColor="rgba(0,0,0,0.35)";
@@ -168,7 +168,7 @@ function gerarImagem(d){
     );
   };
 
-  y += 140;
+  y += boxH + 90;
 
   /* ===== TÍTULO (SOMENTE MODELO) ===== */
   let titulo = d.modelo;
