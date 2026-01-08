@@ -328,12 +328,16 @@ let y = b + 30; // sobe a logo
 const logo = new Image();
 logo.src = `logo/${d.marca.toLowerCase()}.png`;
 
-const boxW = 420;
-const boxH = 130;
-const boxX = (c.width - boxW)/2;
-const boxY = y;
+logo.onload = () => {
+  desenharLogo();
+};
 
-  /* Sombra */
+logo.onerror = () => {
+  console.warn("Logo não encontrada:", logo.src);
+};
+
+function desenharLogo(){
+  /* Caixa */
   ctx.shadowColor="rgba(0,0,0,0.35)";
   ctx.shadowBlur=18;
   ctx.shadowOffsetY=8;
@@ -344,19 +348,21 @@ const boxY = y;
 
   ctx.shadowColor="transparent";
 
-  logo.onload = ()=>{
-    const imgW = boxW - 80;
-    const imgH = logo.height * (imgW / logo.width);
-    ctx.drawImage(
-      logo,
-      boxX + (boxW-imgW)/2,
-      boxY + (boxH-imgH)/2,
-      imgW,
-      imgH
-    );
-  };
+  /* Imagem */
+  const margem = 40;
+  const maxW = boxW - margem * 2;
+  const escala = maxW / logo.width;
+  const imgW = logo.width * escala;
+  const imgH = logo.height * escala;
 
-  y += boxH + 140;
+  ctx.drawImage(
+    logo,
+    boxX + (boxW - imgW) / 2,
+    boxY + (boxH - imgH) / 2,
+    imgW,
+    imgH
+  );
+}
 
   /* ===== TÍTULO (SOMENTE MODELO) ===== */
   let titulo = d.modelo;
