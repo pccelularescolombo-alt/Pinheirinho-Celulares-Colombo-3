@@ -320,6 +320,7 @@ function gerarImagem(d){
 
   ctx.textAlign="center";
   ctx.fillStyle=est.texto;
+  ctx.textBaseline = "middle";
 
 let y = b + 30; // sobe a logo
 
@@ -374,32 +375,34 @@ const boxY = y;
 
   y+=80;
 
-  let fonte = 54;
-  let lineHeight;
-  const areaAltura = c.height - y - b - 20;
-  let linhasPorCol;
+let fonte = 54;
+const areaAltura = c.height - y - b - 20;
+let linhasPorCol;
+let linhaBox;
 
-  do{
-    fonte--;
-    lineHeight = Math.ceil(fonte * 1.4);
-    linhasPorCol = Math.floor(areaAltura / lineHeight);
-  }while(linhasPorCol * 3 < d.adaptacoes.length && fonte > 36);
+do{
+  fonte--;
+  linhaBox = fonte * 1.6; // caixa fixa por linha
+  linhasPorCol = Math.floor(areaAltura / linhaBox);
+}while(linhasPorCol * 3 < d.adaptacoes.length && fonte > 36);
 
-  ctx.font = `${fonte}px Arial`;
+ctx.font = `${fonte}px Arial`;
 
-  const colunas = Math.ceil(d.adaptacoes.length / linhasPorCol);
-  const gap = 40;
-  const largura = (c.width - 120 - gap*(colunas-1)) / colunas;
-  const inicioX = (c.width - ((largura*colunas)+(gap*(colunas-1))))/2;
+const colunas = Math.ceil(d.adaptacoes.length / linhasPorCol);
+const gap = 40;
+const largura = (c.width - 120 - gap*(colunas-1)) / colunas;
+const inicioX = (c.width - ((largura*colunas)+(gap*(colunas-1))))/2;
 
-  d.adaptacoes.forEach((t,i)=>{
-    const col = Math.floor(i / linhasPorCol);
-    const lin = i % linhasPorCol;
-    const x = inicioX + col*(largura+gap) + largura/2;
-    const yy = y + lin * lineHeight;
-    ctx.fillText(t,x,yy);
-  });
-}
+d.adaptacoes.forEach((t,i)=>{
+  const col = Math.floor(i / linhasPorCol);
+  const lin = i % linhasPorCol;
+
+  const x = inicioX + col*(largura+gap) + largura/2;
+  const boxY = y + lin * linhaBox;
+  const textY = boxY + linhaBox / 2;
+
+  ctx.fillText(t, x, textY);
+});
 
 function baixar(){
   const a = document.createElement("a");
@@ -411,4 +414,3 @@ function baixar(){
 
 </body>
 </html>
-
