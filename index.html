@@ -375,12 +375,14 @@ const boxY = y;
   y+=80;
 
   let fonte = 54;
+  let lineHeight;
   const areaAltura = c.height - y - b - 20;
   let linhasPorCol;
 
   do{
     fonte--;
-    linhasPorCol = Math.floor(areaAltura / (fonte * 1.35));
+    lineHeight = Math.ceil(fonte * 1.4);
+    linhasPorCol = Math.floor(areaAltura / lineHeight);
   }while(linhasPorCol * 3 < d.adaptacoes.length && fonte > 36);
 
   ctx.font = `${fonte}px Arial`;
@@ -394,7 +396,6 @@ const boxY = y;
     const col = Math.floor(i / linhasPorCol);
     const lin = i % linhasPorCol;
     const x = inicioX + col*(largura+gap) + largura/2;
-    const lineHeight = fonte * 1.35;
     const yy = y + lin * lineHeight;
     ctx.fillText(t,x,yy);
   });
