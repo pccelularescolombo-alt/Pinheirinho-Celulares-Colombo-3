@@ -380,7 +380,7 @@ const boxY = y;
 
   do{
     fonte--;
-    linhasPorCol = Math.floor(areaAltura / (fonte + 16));
+    linhasPorCol = Math.floor(areaAltura / (fonte * 1.35));
   }while(linhasPorCol * 3 < d.adaptacoes.length && fonte > 36);
 
   ctx.font = `${fonte}px Arial`;
@@ -394,7 +394,8 @@ const boxY = y;
     const col = Math.floor(i / linhasPorCol);
     const lin = i % linhasPorCol;
     const x = inicioX + col*(largura+gap) + largura/2;
-    const yy = y + lin*(fonte+16);
+    const lineHeight = fonte * 1.35;
+    const yy = y + lin * lineHeight;
     ctx.fillText(t,x,yy);
   });
 }
