@@ -375,35 +375,44 @@ const boxY = y;
 
   y+=80;
 
-let fonte = 54;
-const areaAltura = c.height - y - b - 20;
-let linhasPorCol;
-let linhaBox;
+/* ===== ADAPTAÇÕES – AJUSTE CORRETO ===== */
 
-do{
+const areaTopo = y;
+const areaBase = c.height - b - 20;
+const areaAltura = areaBase - areaTopo;
+
+let fonte = 56;
+let linhasPorCol;
+let colunas;
+let linhaAltura;
+
+do {
   fonte--;
-  linhaBox = fonte * 1.6; // caixa fixa por linha
-  linhasPorCol = Math.floor(areaAltura / linhaBox);
-}while(linhasPorCol * 3 < d.adaptacoes.length && fonte > 36);
+  linhaAltura = fonte * 1.4;
+  linhasPorCol = Math.floor(areaAltura / linhaAltura);
+  colunas = Math.ceil(d.adaptacoes.length / linhasPorCol);
+} while (
+  (linhasPorCol * colunas < d.adaptacoes.length || colunas > 3) &&
+  fonte > 34
+);
 
 ctx.font = `${fonte}px Arial`;
+ctx.textBaseline = "middle";
 
-const colunas = Math.ceil(d.adaptacoes.length / linhasPorCol);
 const gap = 40;
-const largura = (c.width - 120 - gap*(colunas-1)) / colunas;
-const inicioX = (c.width - ((largura*colunas)+(gap*(colunas-1))))/2;
+const larguraCol = (c.width - 120 - gap * (colunas - 1)) / colunas;
+const inicioX =
+  (c.width - (larguraCol * colunas + gap * (colunas - 1))) / 2;
 
-d.adaptacoes.forEach((t,i)=>{
+d.adaptacoes.forEach((texto, i) => {
   const col = Math.floor(i / linhasPorCol);
   const lin = i % linhasPorCol;
 
-  const x = inicioX + col*(largura+gap) + largura/2;
-  const boxY = y + lin * linhaBox;
-  const textY = boxY + linhaBox / 2;
+  const x = inicioX + col * (larguraCol + gap) + larguraCol / 2;
+  const yTexto = areaTopo + lin * linhaAltura + linhaAltura / 2;
 
-  ctx.fillText(t, x, textY);
+  ctx.fillText(texto, x, yTexto);
 });
-}
 
 function baixar(){
   const a = document.createElement("a");
@@ -412,6 +421,5 @@ function baixar(){
   a.click();
 }
 </script>
-
 </body>
 </html>
